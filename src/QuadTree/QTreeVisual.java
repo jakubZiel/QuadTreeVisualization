@@ -5,7 +5,7 @@ import Input.MouseManager;
 import display.Display;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-
+import java.util.ArrayList;
 
 public class QTreeVisual {
 
@@ -71,7 +71,7 @@ public class QTreeVisual {
         if (keyManager.height) {
             if (keyManager.plus && requestArea.height < height) {
                 requestArea.setSize(requestArea.width, requestArea.height + 1);
-            } else if (keyManager.minus && height > 5) {
+            } else if (keyManager.minus && requestArea.height > 5) {
                 requestArea.setSize(requestArea.width, requestArea.height - 1);
             }
         }
@@ -119,11 +119,16 @@ public class QTreeVisual {
     }
 
     public static void main(String[] args) {
+
         QuadTree quadTree = new QuadTree(4, new Rectangle(0,0, 800,600));
-        quadTree.init();
+        quadTree.init(50);
+
 
         QTreeVisual qTreeVisual = new QTreeVisual(quadTree, quadTree.initialArea.width, quadTree.initialArea.height);
+
         qTreeVisual.renderLoop();
+
+
 
     }
 }

@@ -43,31 +43,9 @@ public class QuadTree {
         root.printLeaf();
     }
     
-    public void init(){
-        insert(new Point(50 ,50));
-        insert(new Point(150 ,50));
-        insert(new Point(50 ,150));
-        insert(new Point(150 ,150));
-
-        insert(new Point(50 ,85));
-        insert(new Point(150 ,20));
-        insert(new Point(50 ,15));
-        insert(new Point(120 ,150));
-
-        insert(new Point(15 ,29));
-        insert(new Point(123 ,125));
-        insert(new Point(0 ,0));
-        insert(new Point(5 ,185));
-
-        insert(new Point(10 ,75));
-        insert(new Point(10 ,30));
-        insert(new Point(2 ,7));
-        insert(new Point(20 ,20));
-
-        insert(new Point(111 ,75));
-        insert(new Point(49 ,110));
-        insert(new Point(21 ,17));
-        insert(new Point(188 ,188));
+    public void init(int numberOfPoints){
+        for (Point p : QuadTree.randomPoints(numberOfPoints, this.initialArea.width, this.initialArea.height))
+            this.insert(p);
     }
 
     public void renderPoints(Graphics graphics){
@@ -91,4 +69,27 @@ public class QuadTree {
             graphics.fillOval(p.x, p.y, 4, 4);
 
     }
+
+    public void clear(){
+        root.deleteNode();
+        root.split = false;
+    }
+
+    public void loadTree(ArrayList<Point> points){
+
+        for (Point p: points)
+            this.insert(p);
+
+        System.out.println("Tree Loaded");
+    }
+
+    public static ArrayList<Point> randomPoints(int numberOfPoints, int maxX, int maxY){
+        ArrayList<Point> points = new ArrayList<>();
+
+        for (int i = 0; i < numberOfPoints; i++)
+            points.add(new Point((int)( Math.random() * maxX), (int) (Math.random() * maxY)));
+
+        return points;
+    }
+
 }

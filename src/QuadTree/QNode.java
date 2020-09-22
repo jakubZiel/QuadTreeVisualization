@@ -111,4 +111,23 @@ public class QNode {
              graphics.drawRect(bound.x, bound.y, bound.width, bound.height);
      }
 
+     public void deleteNode() {
+        if (split) {
+
+            TopLeft.deleteNode();
+            TopRight.deleteNode();
+            BottomRight.deleteNode();
+            BottomLeft.deleteNode();
+
+            TopLeft = null;
+            TopRight = null;
+            BottomLeft = null;
+            BottomRight = null;
+
+            System.gc();
+
+        } else {
+            pointsIn.clear();
+        }
+    }
 }
