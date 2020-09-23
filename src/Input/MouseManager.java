@@ -3,7 +3,6 @@ package Input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
 import QuadTree.QTreeVisual;
 
 public class MouseManager implements MouseListener, MouseMotionListener {
@@ -65,7 +64,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
             mouseY = e.getY();
 
             synchronized(visualization){
-                visualization.resetSleepCounter();                
+                visualization.resetSleepCounter();                   
                 visualization.notify();
             }
     }

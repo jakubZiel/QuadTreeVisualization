@@ -3,7 +3,11 @@ package Input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import QuadTree.QTreeVisual;
+
 public class KeyManager implements KeyListener {
+
+    public QTreeVisual visualization;
 
     private boolean[] keys;
     public boolean up, down, left, right;
@@ -12,6 +16,10 @@ public class KeyManager implements KeyListener {
     public boolean plus,minus;
     public boolean height,width;
 
+    public KeyManager(QTreeVisual visualization){
+        this.visualization = visualization;
+        keys = new boolean[600];
+    }
 
     public void tick(){
         up = keys[KeyEvent.VK_W];
@@ -35,10 +43,6 @@ public class KeyManager implements KeyListener {
 
     }
 
-    public KeyManager(){
-        keys = new boolean[600];
-    }
-
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -51,13 +55,21 @@ public class KeyManager implements KeyListener {
             keys[KeyEvent.VK_H] = !keys[KeyEvent.VK_H];
         else
              keys[e.getKeyCode()] = true;
+    
+        synchronized(visualization){
+            visualization.resetSleepCounter();                
+            visualization.notify();
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+
+
         if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_H)
             return;
         keys[e.getKeyCode()] = false;
+
     }
 
     public boolean[] getKeys() {
