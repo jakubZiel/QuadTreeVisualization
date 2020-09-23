@@ -73,9 +73,9 @@ public class QNode {
              BottomLeft.printLeaf();
 
          }else{
-             System.out.print("Rectangle(" + bound.x + "," + bound.y + "," + bound.width + "," + bound.height + ") : ");
+             System.out.print(bound);
              for (Point p : pointsIn)
-                 System.out.print("(" + p.x + "," + p.y +"), ");
+                 System.out.println(p);
 
              System.out.println();
          }

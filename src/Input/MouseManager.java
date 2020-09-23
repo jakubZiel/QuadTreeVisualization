@@ -4,14 +4,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import QuadTree.QTreeVisual;
+
 public class MouseManager implements MouseListener, MouseMotionListener {
 
     private  boolean leftPressed, rightPressed;
     private int mouseX, mouseY;
 
+    QTreeVisual visualization;
 
     public void tick(){
 
+    }
+
+    public MouseManager(QTreeVisual visualization){
+        this.visualization = visualization;
     }
 
     @Override
@@ -56,6 +63,11 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
             mouseX = e.getX();
             mouseY = e.getY();
+
+            synchronized(visualization){
+                visualization.resetSleepCounter();                
+                visualization.notify();
+            }
     }
 
     public boolean isLeftPressed() {
