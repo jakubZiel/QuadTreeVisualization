@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="QuadTree:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/QuadTree_jar</output-path>
+    <root id="archive" name="QuadTree.jar">
+      <element id="module-output" name="QuadTree" />
+    </root>
+  </artifact>
+</component>

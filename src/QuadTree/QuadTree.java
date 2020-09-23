@@ -11,7 +11,8 @@ public class QuadTree {
     Rectangle initialArea;
     ArrayList<Point> requestPoints;
     ArrayList<Point> allPoints;
-
+    int comparisions;
+    int leafRectangles;
 
     public QuadTree(int nodeCapacity, Rectangle initialArea){
         this.nodeCapacity = nodeCapacity;
@@ -19,7 +20,7 @@ public class QuadTree {
         requestPoints = new ArrayList<>();
         allPoints = new ArrayList<>();
 
-        root = new QNode(nodeCapacity, initialArea, requestPoints);
+        root = new QNode(nodeCapacity, initialArea, requestPoints, this);
     }
 
     public void insert(Point point){
@@ -34,6 +35,7 @@ public class QuadTree {
             return null;
 
         requestPoints.clear();
+        comparisions = 0;
         root.allPointsInLeaf(bounds);
 
         return requestPoints;
@@ -46,6 +48,8 @@ public class QuadTree {
     public void init(int numberOfPoints){
         for (Point p : QuadTree.randomPoints(numberOfPoints, this.initialArea.width, this.initialArea.height))
             this.insert(p);
+
+        leafRectangles = getNumberOfLeafRectangles();
     }
 
     public void renderPoints(Graphics graphics){
@@ -92,4 +96,11 @@ public class QuadTree {
         return points;
     }
 
+    public ArrayList<Point> getRequestPoints(){
+        return requestPoints;
+    }
+
+    public int getNumberOfLeafRectangles(){
+        return root.checkNumberOfRectangles();
+    }
 }

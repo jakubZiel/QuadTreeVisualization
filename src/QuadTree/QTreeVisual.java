@@ -5,7 +5,6 @@ import Input.MouseManager;
 import display.Display;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
 
 public class QTreeVisual {
 
@@ -19,15 +18,16 @@ public class QTreeVisual {
     private int height;
     private int width;
     private Rectangle requestArea;
+    private int numberOfAllPoints;
 
-    public QTreeVisual(QuadTree qTreeModel, int width, int height){
-        this.height = height;
-        this.width = width;
+    public QTreeVisual(QuadTree qTreeModel){
+        this.height = qTreeModel.initialArea.height;
+        this.width = qTreeModel.initialArea.width;
         this.mouseManager = new MouseManager();
         this.keyManager = new KeyManager();
 
-        this.display = new Display("QuadTree", width , height + 38 );
-
+        this.display = new Display("QuadTree", width + 250 , height + 38 );
+    
 
         display.getFrame().addKeyListener(keyManager);
         display.getCanvas().addKeyListener(keyManager);
@@ -47,10 +47,12 @@ public class QTreeVisual {
             return;
         }
         graphics = buffStrategy.getDrawGraphics();
-        graphics.clearRect(0,0, width, height);
+        graphics.clearRect(0,0, width + 250, height + 38);
 
         qTreeModel.renderRectangles(graphics);
         qTreeModel.renderPoints(graphics);
+        renderStats(graphics);
+        renderHints(graphics);
 
         if (queryBounds != null){
             qTreeModel.allPointsInRectangle(queryBounds);
@@ -118,13 +120,48 @@ public class QTreeVisual {
         }
     }
 
+    private void renderStats(Graphics graphics){
+        graphics.setColor(Color.BLACK);
+        graphics.setFont(graphics.getFont().deriveFont(15f));
+
+        graphics.drawString("area width:" + requestArea.getWidth(), 810, 300);
+        graphics.drawString("area height:" + requestArea.getHeight(), 810, 330);
+        graphics.drawString("points in area:" + qTreeModel.getRequestPoints().size(), 810, 360);
+        graphics.drawString("All points:" + numberOfAllPoints, 810, 390);
+        graphics.drawString("comparisions: " + this.qTreeModel.comparisions, 810, 420);
+        graphics.drawString("rectangles: " + this.qTreeModel.leafRectangles, 810, 450);
+        graphics.setColor(Color.RED);
+        graphics.drawString("classicSearch comparisions:" + numberOfAllPoints, 810, 480);
+    }
+
+    private void renderHints(Graphics graphics){
+        graphics.setColor(Color.BLACK);
+        graphics.setFont(graphics.getFont().deriveFont(15f));
+
+        graphics.drawString("Toggle height 'H' ", 810, 50);
+        graphics.drawString("Toggle width 'W' ", 810, 80);
+        graphics.drawString("inc/dec press 'P'/'M' ", 810, 110);
+        
+    }
+
+    public void init(int numberOfPoints){
+        this.qTreeModel.init(numberOfPoints);
+        this.numberOfAllPoints = numberOfPoints;
+    }
+
+    public void randomInit(int maxNumberOfPoints){
+        
+        int randomNumb = (int)(maxNumberOfPoints * Math.random());
+
+        this.qTreeModel.init(randomNumb);
+        this.numberOfAllPoints = randomNumb;
+    }
+
     public static void main(String[] args) {
 
-        QuadTree quadTree = new QuadTree(4, new Rectangle(0,0, 800,600));
-        quadTree.init(50);
-
-
-        QTreeVisual qTreeVisual = new QTreeVisual(quadTree, quadTree.initialArea.width, quadTree.initialArea.height);
+        QTreeVisual qTreeVisual = new QTreeVisual(new QuadTree(9, new Rectangle(0,0, 800,600)));
+        
+        qTreeVisual.randomInit(150);
 
         qTreeVisual.renderLoop();
 

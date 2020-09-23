@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class QNode {
 
+     QuadTree mainTree;
+
      QNode TopLeft;
      QNode TopRight;
      QNode BottomLeft;
@@ -17,13 +19,15 @@ public class QNode {
      int capacity;
      boolean split;
      Rectangle bound;
+    
 
-     QNode(int capacity, Rectangle bound, ArrayList<Point> requestPoints){
+     QNode(int capacity, Rectangle bound, ArrayList<Point> requestPoints, QuadTree qTree){
          this.bound = bound;
          this.capacity = capacity;
          pointsIn = new ArrayList<>();
          this.result = requestPoints;
-
+         this.mainTree = qTree;
+      
          split = false;
      }
 
@@ -45,11 +49,12 @@ public class QNode {
     }
 
      private void split(){
+        
 
-        TopLeft = new QNode(capacity, new Rectangle(bound.x, bound.y, floorDiv2(bound.width), floorDiv2(bound.height)), result);
-        BottomLeft = new QNode(capacity, new Rectangle(bound.x, bound.y + bound.height / 2, floorDiv2(bound.width), floorDiv2(bound.height)), result);
-        TopRight = new QNode(capacity,new Rectangle(bound.x + bound.width / 2, bound.y, floorDiv2(bound.width), floorDiv2(bound.height)), result);
-        BottomRight = new QNode(capacity, new Rectangle(bound.x + bound.width / 2, bound.y + bound.height / 2, floorDiv2(bound.width), floorDiv2(bound.height)), result);
+        TopLeft = new QNode(capacity, new Rectangle(bound.x, bound.y, floorDiv2(bound.width), floorDiv2(bound.height)), result, this.mainTree);
+        BottomLeft = new QNode(capacity, new Rectangle(bound.x, bound.y + bound.height / 2, floorDiv2(bound.width), floorDiv2(bound.height)), result, this.mainTree);
+        TopRight = new QNode(capacity,new Rectangle(bound.x + bound.width / 2, bound.y, floorDiv2(bound.width), floorDiv2(bound.height)), result, this.mainTree);
+        BottomRight = new QNode(capacity, new Rectangle(bound.x + bound.width / 2, bound.y + bound.height / 2, floorDiv2(bound.width), floorDiv2(bound.height)), result, this.mainTree);
 
         for (Point point : pointsIn){
             if (TopLeft.bound.contains(point)) TopLeft.insert(point);
@@ -78,6 +83,8 @@ public class QNode {
 
      void allPointsInLeaf(Rectangle bound){
          if (!split) {
+
+             this.mainTree.comparisions += pointsIn.size();
              for (Point p : pointsIn)
                  if (bound.contains(p))
                      result.add(p);
@@ -129,5 +136,20 @@ public class QNode {
         } else {
             pointsIn.clear();
         }
+    }
+
+    public int checkNumberOfRectangles(){
+        int sumOfChildren = 0;
+        
+        if (!split)
+            return 1;
+        else {
+            sumOfChildren += this.TopLeft.checkNumberOfRectangles();
+            sumOfChildren += this.TopRight.checkNumberOfRectangles();
+            sumOfChildren += this.BottomLeft.checkNumberOfRectangles();
+            sumOfChildren += this.BottomRight.checkNumberOfRectangles();
+        }
+
+        return sumOfChildren;
     }
 }
