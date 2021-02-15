@@ -21,7 +21,7 @@ public class QNode {
      Rectangle bound;
     
 
-     QNode(int capacity, Rectangle bound, ArrayList<Point> requestPoints, QuadTree qTree){
+     public QNode(int capacity, Rectangle bound, ArrayList<Point> requestPoints, QuadTree qTree){
          this.bound = bound;
          this.capacity = capacity;
          pointsIn = new ArrayList<>();
@@ -31,7 +31,7 @@ public class QNode {
          split = false;
      }
 
-     void insert(Point point){
+     public void insert(Point point){
          if (split) {
              if (TopLeft.bound.contains(point)) TopLeft.insert(point);
              else if (TopRight.bound.contains(point)) TopRight.insert(point);
@@ -84,7 +84,7 @@ public class QNode {
      void allPointsInLeaf(Rectangle bound){
          if (!split) {
 
-             this.mainTree.comparisions += pointsIn.size();
+             this.mainTree.comparisons += pointsIn.size();
              for (Point p : pointsIn)
                  if (bound.contains(p))
                      result.add(p);
@@ -151,5 +151,9 @@ public class QNode {
         }
 
         return sumOfChildren;
+    }
+
+    public ArrayList<Point> getPointsIn(){
+         return pointsIn;
     }
 }

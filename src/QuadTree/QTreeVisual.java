@@ -5,7 +5,6 @@ import Input.MouseManager;
 import display.Display;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
 
 public class QTreeVisual implements Runnable {
 
@@ -91,20 +90,17 @@ public class QTreeVisual implements Runnable {
 
     public void renderLoop() {
 
-        int fps = 120;
+        int fps = 60;
         double timePerTick = 1000000000.0f / fps;
         double delta = 0;
         long now;
         long lastTime = System.nanoTime();
-        long timer = 0;
 
         requestArea = new Rectangle(15, 29, 100, 49);
 
         while (true) {
             now = System.nanoTime();
             delta += (now - lastTime) / timePerTick;
-            timer += now - lastTime;
-            lastTime = now;
 
             if (delta >= 1) {
                 tick();
@@ -121,10 +117,6 @@ public class QTreeVisual implements Runnable {
                     e.printStackTrace();
                 }
             }
-
-            if (timer >= 1000000000)
-                System.out.println(requestArea);
-
         }
     }
 
@@ -136,7 +128,7 @@ public class QTreeVisual implements Runnable {
         graphics.drawString("area height:" + requestArea.getHeight(), 810, 330);
         graphics.drawString("points in area:" + qTreeModel.getRequestPoints().size(), 810, 360);
         graphics.drawString("All points:" + numberOfAllPoints, 810, 390);
-        graphics.drawString("comparisions: " + this.qTreeModel.comparisions, 810, 420);
+        graphics.drawString("comparisions: " + this.qTreeModel.comparisons, 810, 420);
         graphics.drawString("rectangles: " + this.qTreeModel.leafRectangles, 810, 450);
         graphics.setColor(Color.RED);
         graphics.drawString("classicSearch:" + numberOfAllPoints, 810, 480);
@@ -167,17 +159,15 @@ public class QTreeVisual implements Runnable {
 
     @Override
     public void run() {
-        init(1000);
+        init(200);
         renderLoop();
     }
 
     public static void main(String[] args) {
 
-        Thread visualization = new Thread(new QTreeVisual(new QuadTree(30, new Rectangle(0, 0, 800, 600))));
+        Thread visualization = new Thread(new QTreeVisual(new QuadTree(20, new Rectangle(0, 0, 800, 600))));
         visualization.start();
     }
-
-
 
     public void resetSleepCounter(){
         this.sleepCounter = 0;

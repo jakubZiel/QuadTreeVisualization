@@ -1,5 +1,6 @@
 package QuadTree;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public class QuadTree {
     Rectangle initialArea;
     ArrayList<Point> requestPoints;
     ArrayList<Point> allPoints;
-    int comparisions;
+    int comparisons;
     int leafRectangles;
 
     public QuadTree(int nodeCapacity, Rectangle initialArea){
@@ -24,6 +25,7 @@ public class QuadTree {
     }
 
     public void insert(Point point){
+
         numberOfPoints++;
         allPoints.add(point);
         root.insert(point);
@@ -35,7 +37,7 @@ public class QuadTree {
             return null;
 
         requestPoints.clear();
-        comparisions = 0;
+        comparisons = 0;
         root.allPointsInLeaf(bounds);
 
         return requestPoints;
@@ -75,6 +77,7 @@ public class QuadTree {
     }
 
     public void clear(){
+        numberOfPoints = 0;
         root.deleteNode();
         root.split = false;
     }
@@ -102,5 +105,9 @@ public class QuadTree {
 
     public int getNumberOfLeafRectangles(){
         return root.checkNumberOfRectangles();
+    }
+
+    public int size() {
+        return numberOfPoints;
     }
 }
