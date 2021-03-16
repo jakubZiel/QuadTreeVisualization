@@ -1,0 +1,24 @@
+{
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar",
+            "/media/jakub/SDHC/IdeaProjects/QuadTree/**/*.jar",
+            "/media/jakub/SDHC/**/*.jar",
+            "/media/jakub/SDHC/My Java JARs/GameTutorial.jar",
+            "/media/jakub/SDHC/My Java JARs/junit-platform-console-standalone-1.6.0.jar"
+        ],
+        "exclude": [
+            "/media/jakub/SDHC/IdeaProjects/GameTutorial/out/artifacts/GameTutorial_jar/GameTutorial.jar",
+            "/media/jakub/SDHC/My Java JARs/GameTutorial.jar",
+            "/media/jakub/SDHC/IdeaProjects/LinkedList/out/artifacts/LinkedList_jar/LinkedList.jar",
+            "/media/jakub/SDHC/sem3/ARKO/mars/Mars.jar",
+            "/media/jakub/SDHC/My Java JARs/QuadTree.jar",
+            "/media/jakub/SDHC/.Trash-1000/files/QuadTree.jar",
+            "/media/jakub/SDHC/Java Libraries/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar",
+            "/media/jakub/SDHC/Java Libraries/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49.jar",
+            "/media/jakub/SDHC/My Java JARs/ClientServerJARs/socketProgramming_Client_jar/socketProgramming.jar",
+            "/media/jakub/SDHC/My Java JARs/ClientServerJARs/socketProgramming_Server_jar/socketProgramming.jar",
+            "out/artifacts/QuadTree_jar/QuadTree.jar"
+        ]
+    }
+}

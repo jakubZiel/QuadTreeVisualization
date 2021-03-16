@@ -95,7 +95,7 @@ class QuadTreeTest {
 
     }
 
-    public ArrayList<Point> insertionSet(){
+    private ArrayList<Point> insertionSet(){
         ArrayList<Point> points = new ArrayList<>();
 
         points.add(new Point(1,1));
